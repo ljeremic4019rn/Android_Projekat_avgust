@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Shus/Programming/AndroidApps/Projekat_avgust/app/src/main/res/drawable-v24/delete.xml" value="0.296" />
+        <entry key="..\:/Users/Shus/Programming/AndroidApps/Projekat_avgust/app/src/main/res/drawable-v24/discover.xml" value="0.296" />
         <entry key="..\:/Users/Shus/Programming/AndroidApps/Projekat_avgust/app/src/main/res/drawable-v24/profile.xml" value="0.29" />
+        <entry key="..\:/Users/Shus/Programming/AndroidApps/Projekat_avgust/app/src/main/res/drawable/ic_launcher_background.xml" value="0.296" />
         <entry key="..\:/Users/Shus/Programming/AndroidApps/Projekat_avgust/app/src/main/res/layout/activity_log_in.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Shus/Programming/AndroidApps/Projekat_avgust/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Shus/Programming/AndroidApps/Projekat_avgust/app/src/main/res/layout/activity_product_screen.xml" value="0.2984375" />
