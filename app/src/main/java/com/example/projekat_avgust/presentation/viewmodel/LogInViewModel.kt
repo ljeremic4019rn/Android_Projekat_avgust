@@ -12,9 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class LogInViewModel(
-    private val logInRepository: LogInRepository
-) : ViewModel(), LogInContract.LogInViewModel{
+class LogInViewModel(private val logInRepository: LogInRepository) : ViewModel(), LogInContract.LogInViewModel{
 
     private val user: MutableLiveData<User> = MutableLiveData()
     var flag: Boolean = false

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_users"
-        android:name= "com.example.projekat_avgust.presentation.view.fragment.UsersFragment"
+        android:name= "com.example.projekat_avgust.presentation.view.fragment.EmployeeFragment"
         android:label="@string/users_overview"
-        tools:layout="@layout/fragment_users" />
+        tools:layout="@layout/fragment_employees" />
 
     <fragment
         android:id="@+id/nav_create_user"

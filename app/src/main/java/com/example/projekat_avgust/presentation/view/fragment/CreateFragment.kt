@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.projekat_avgust.databinding.FragmentCreateBinding
-import com.example.projekat_avgust.databinding.FragmentUsersBinding
 
 class CreateFragment : Fragment() {
 

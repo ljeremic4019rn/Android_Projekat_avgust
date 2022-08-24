@@ -13,8 +13,9 @@ class LogInRepositoryImpl (
     override fun userAuth(username: String, password: String): Observable<User> {
         return logInDataSource
             .userAuth(
+                "https://dummyjson.com/auth/login",
                 LogInRequestBody(
-                    "kminchelle", "0lelplR"
+                    username, password
                 )
             )
             .map { postResponse ->
