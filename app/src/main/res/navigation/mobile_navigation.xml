@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_users">
+
+    <fragment
+        android:id="@+id/nav_users"
+        android:name= "com.example.projekat_avgust.presentation.view.fragment.UsersFragment"
+        android:label="@string/users_overview"
+        tools:layout="@layout/fragment_users" />
+
+    <fragment
+        android:id="@+id/nav_create_user"
+        android:name="com.example.projekat_avgust.presentation.view.fragment.CreateFragment"
+        android:label="@string/user_creation"
+        tools:layout="@layout/fragment_create" />
+
+</navigation>
