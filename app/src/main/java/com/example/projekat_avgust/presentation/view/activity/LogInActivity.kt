@@ -10,10 +10,8 @@ import com.example.projekat_avgust.presentation.contract.LogInContract
 import com.example.projekat_avgust.presentation.view.states.LogInState
 import com.example.projekat_avgust.presentation.viewmodel.LogInViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.adapter.rxjava2.HttpException
 
 import timber.log.Timber
-import java.util.*
 
 class LogInActivity : AppCompatActivity() {
 
@@ -34,11 +32,10 @@ class LogInActivity : AppCompatActivity() {
     private fun init(){
         initView()
         initObservers()
-
     }
 
     private fun initView(){
-        val sharedPreferences = getSharedPreferences("ulogovan", MODE_PRIVATE);
+        val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE);
         save = sharedPreferences.edit()
         binding.btnlogin.setOnClickListener{
             username = binding.inputUsername.text.toString()
@@ -51,41 +48,32 @@ class LogInActivity : AppCompatActivity() {
                 save.putString("password", password.toString())
                 logInViewModel.userAuth(username, password)
             }
-
         }
-//            finish()
-
-
-        }
+    }
     private fun initObservers(){
         logInViewModel.logInState.observe(this) {
             Timber.e(it.toString())
-            renderState(it)
-
+            startMainActivity(it)
         }
     }
 
-    private fun initListeners(){
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-
-        finish()
-    }
-
-    private fun renderState(state: LogInState) {
+    private fun startMainActivity(state: LogInState) {
         when (state) {
             is LogInState.Success -> {
-                Toast.makeText(this, "Uspesno ste se prijavili", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show()
                 save.putString("firstName", state.user.firstName)
                 save.putString("lastName", state.user.lastName)
                 save.putString("gender", state.user.gender)
-                save.putString("slika", state.user.image)
+                save.putString("pfp", state.user.image)
+                save.putBoolean("rememberMe", binding.checkBox.isChecked)
                 save.apply()
 
-                initListeners()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
             is LogInState.Error -> {
-                Toast.makeText(this, "Uneli ste pogresne podatke u activity", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Wrong data entered", Toast.LENGTH_SHORT).show()
             }
             is LogInState.DataFetched -> {
                 Toast.makeText(this, "Fresh data fetched from the server", Toast.LENGTH_LONG)
@@ -95,6 +83,5 @@ class LogInActivity : AppCompatActivity() {
             }
         }
     }
-
-    }
+}
 

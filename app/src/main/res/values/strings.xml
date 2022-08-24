@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Projekat_avgust</string>
+    <string name="remember_me">Remember me</string>
+    <string name="sign_in">Sign In</string>
 </resources>
