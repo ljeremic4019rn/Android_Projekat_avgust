@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.projekat_avgust.data.models.Employee
 import com.example.projekat_avgust.databinding.FragmentEmployeesBinding
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
+import com.example.projekat_avgust.presentation.view.recycler.adapter.EmployeeAdapter
 import com.example.projekat_avgust.presentation.view.states.EmployeeState
 import com.example.projekat_avgust.presentation.viewmodel.EmployeeViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -21,48 +25,57 @@ class EmployeeFragment : Fragment() {
     private var _binding: FragmentEmployeesBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    private lateinit var adapter: EmployeeAdapter
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentEmployeesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init(view)
+        init()
     }
 
-    private fun init(view: View) {
-//        initRecycler()
-//        initListeners()
+    private fun init() {
+        initRecycler()
         initObservers()
     }
 
 
-
-    private fun initListeners() {
-        TODO("Not yet implemented")
+    private fun initRecycler() {
+        binding.employeeRv.layoutManager = LinearLayoutManager(context)
+        adapter = EmployeeAdapter(::openDetailed)//callback za on click
+        binding.employeeRv.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
+        binding.employeeRv.adapter = adapter
     }
 
-    private fun initRecycler() {
-        TODO("Not yet implemented")
+    private fun openDetailed(employee: Employee){
+        Toast.makeText(context, "kliknut je ${employee.id}", Toast.LENGTH_SHORT).show()
+        //todo otvori pop-up sa opcijama
     }
 
     private fun initObservers() {
-        employeeViewModel.employeeState.observe(viewLifecycleOwner, Observer { employeeState ->
+        employeeViewModel.employeeState.observe(viewLifecycleOwner) { employeeState ->
             Timber.e(employeeState.toString())
             renderState(employeeState)
-        })
+        }
 
 
         employeeViewModel.fetchAllEmployeesFromServer()
-//        employeeViewModel.getAllEmployees() todo get from db
+        employeeViewModel.getAllEmployees()
     }
 
 
     private fun renderState(state: EmployeeState) {
         when (state) {
             is EmployeeState.Success -> {
-//                adapter.submitList(state.employees) todo recycler
+                adapter.submitList(state.employees)
             }
             is EmployeeState.Error -> {
                 Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
