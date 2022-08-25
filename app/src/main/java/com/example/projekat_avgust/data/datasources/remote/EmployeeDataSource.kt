@@ -1,9 +1,6 @@
 package com.example.projekat_avgust.data.datasources.remote
 
-import com.example.projekat_avgust.data.models.responseRequest.EmployeeResponseDelete
-import com.example.projekat_avgust.data.models.responseRequest.EmployeeResponseObject
-import com.example.projekat_avgust.data.models.responseRequest.EmployeeResponseSingle
-import com.example.projekat_avgust.data.models.responseRequest.LogInRequestBody
+import com.example.projekat_avgust.data.models.responseRequest.*
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -16,7 +13,7 @@ interface EmployeeDataSource {
     fun delete(@Url url: String?): Observable<EmployeeResponseDelete>
 
     @PUT
-    fun update(@Url url: String?, @Body body: LogInRequestBody): Observable<EmployeeResponseSingle>
+    fun update(@Url url: String?, @Body body: EmployeeRequestUpdate): Observable<EmployeeResponseSingle>
 
     @GET
     fun details(@Url url: String?): Observable<EmployeeResponseSingle>

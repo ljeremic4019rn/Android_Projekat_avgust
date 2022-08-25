@@ -3,17 +3,15 @@ package com.example.projekat_avgust.data.repositories
 import android.annotation.SuppressLint
 import com.example.projekat_avgust.data.datasources.remote.EmployeeDataSource
 import com.example.projekat_avgust.data.models.*
+import com.example.projekat_avgust.data.models.responseRequest.EmployeeRequestUpdate
 import com.example.rmaproject2.data.datasource.local.EmployeeDao
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import io.reactivex.Completable
 import io.reactivex.Observable
-import okhttp3.internal.notifyAll
 
 class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private val remoteDataSource: EmployeeDataSource) : EmployeeRepository {
 
     override fun fetchAllFromServer(): Observable<Resource<Unit>> {
-        return remoteDataSource//todo dodaj check za success
+        return remoteDataSource
             .getAll(
                 "https://dummy.restapiexample.com/api/v1/employees"
             )
@@ -58,12 +56,20 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
             }
     }
 
-    override fun update(employeeId: Long, employeeDetails: Employee): Observable<String> {
-        TODO("Not yet implemented")
+    override fun update(employeeId: Long, name: String, salary: Int, age: Int): Observable<EmployeeResponse> {
+        println("uspesno usli")
+        return remoteDataSource
+            .update(
+                "https://dummy.restapiexample.com/api/v1/update/${employeeId}",
+                EmployeeRequestUpdate(employeeId, name, salary, age, "notNull")
+            )
+            .map {
+                EmployeeResponse(employeeId ,it.data.employee_name, it.data.employee_salary ,it.data.employee_age, it.data.profile_image)
+            }
     }
 
     override fun details(employeeId: Long): Observable<EmployeeResponse> {
-        return remoteDataSource//todo dodaj check za success
+        return remoteDataSource
             .details(
                 "https://dummy.restapiexample.com/api/v1/employee/${employeeId}"
             )
@@ -74,6 +80,10 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
 
     override fun deleteById(id: Long): Completable {
         return localDataSource.deleteById(id)
+    }
+
+    override fun updateById(id: Long, name: String, salary: Int, age: Int): Completable {
+        return localDataSource.update(id, name, salary, age)
     }
 
 }

@@ -85,7 +85,7 @@ class EmployeeFragment : Fragment() {
 
             when(radioButton.text.toString()){//todo dodaj funkcionalnost
                 "Delete employee" -> employeeViewModel.deleteEmployee(employee.id)
-                "Update employee" -> println("update")//employeeViewModel.updateEmployee()
+                "Update employee" -> employeeViewModel.updateEmployee(employee.id, "Marko Markovic" , 300000, 69) //todo podaci iz novog prozora
                 "Employee details" -> employeeViewModel.detailedEmployee(employee.id)
             }
             builder.dismiss()

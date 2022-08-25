@@ -95,24 +95,38 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         subscriptions.add(subscription)
     }
 
-    override fun updateEmployee(employeeId: Long, employeeDetails: Employee) {
-//        val subscription = employeeRepository
-//            .update(employeeId, )
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                {
-//                    when(it) {
-//                        is Resource.Success -> deleteFromDb(employeeId)
-//                        is Resource.Error -> employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
-//                    }
-//                },
-//                {
-//                    employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
-//                    Timber.e(it)
-//                }
-//            )
-//        subscriptions.add(subscription)
+    private fun updateFromDb(employeeId: Long, name: String, salary: Int, age: Int){
+        val subscription = employeeRepository
+            .updateById(employeeId, name, salary, age)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    Timber.e("UPDATED")
+                },
+                {
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
+    override fun updateEmployee(employeeId: Long, name: String, salary: Int, age: Int) {
+        val subscription = employeeRepository
+            .update(employeeId, name, salary, age)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    employeeState.value = EmployeeState.Updated(it)
+                    updateFromDb(employeeId, name, salary, age)
+                },
+                {
+                    employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
     }
 
     override fun detailedEmployee(employeeId: Long) {
@@ -122,7 +136,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    employeeState.value = EmployeeState.Detailed(it)
+                    employeeState.value = EmployeeState.Detailed(it)//todo stavi da detailed vuce iz base a ne sa servera
                 },
                 {
                     employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")

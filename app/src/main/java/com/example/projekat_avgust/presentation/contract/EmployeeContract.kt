@@ -14,7 +14,7 @@ interface EmployeeContract {
         fun fetchAllEmployeesFromServer()
         fun getAllEmployees()
         fun deleteEmployee(employeeId: Long)
-        fun updateEmployee(employeeId: Long, employeeDetails: Employee)
+        fun updateEmployee(employeeId: Long, name: String, salary: Int, age: Int)
         fun detailedEmployee(employeeId: Long)
     }
 }

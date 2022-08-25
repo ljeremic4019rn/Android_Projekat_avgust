@@ -12,9 +12,7 @@ class LogInRepositoryImpl (
         return logInDataSource
             .userAuth(
                 "https://dummyjson.com/auth/login",
-                LogInRequestBody(
-                    username, password
-                )
+                LogInRequestBody(username, password)
             )
             .map { postResponse ->
                 User(
