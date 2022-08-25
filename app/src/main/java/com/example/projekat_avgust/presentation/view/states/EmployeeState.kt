@@ -9,5 +9,7 @@ EmployeeState {
     object DataFetched: EmployeeState()
     data class Success(val employees: List<Employee>): EmployeeState()
     data class Detailed(val detailed: EmployeeResponse): EmployeeState()
+    data class Deleted(val detailed: Long): EmployeeState()
+    data class Updated(val detailed: String): EmployeeState()
     data class Error(val message: String): EmployeeState()
 }

@@ -60,11 +60,59 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
     }
 
     override fun deleteEmployee(employeeId: Long) {
-        TODO("Not yet implemented")
+        val subscription = employeeRepository
+            .delete(employeeId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    when(it) {
+                        is Resource.Success -> deleteFromDb(employeeId)
+                        is Resource.Error -> employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+                    }
+                },
+                {
+                    employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
+    private fun deleteFromDb(employeeId: Long){
+        val subscription = employeeRepository
+            .deleteById(employeeId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    Timber.e("DELETED")
+                },
+                {
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
     }
 
     override fun updateEmployee(employeeId: Long, employeeDetails: Employee) {
-        TODO("Not yet implemented")
+//        val subscription = employeeRepository
+//            .update(employeeId, )
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                {
+//                    when(it) {
+//                        is Resource.Success -> deleteFromDb(employeeId)
+//                        is Resource.Error -> employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+//                    }
+//                },
+//                {
+//                    employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+//                    Timber.e(it)
+//                }
+//            )
+//        subscriptions.add(subscription)
     }
 
     override fun detailedEmployee(employeeId: Long) {

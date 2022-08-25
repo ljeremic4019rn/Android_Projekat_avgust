@@ -52,20 +52,13 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
 
     @SuppressLint("CheckResult")
     override fun delete(employeeId: Long): Observable<Resource<Unit>> {
-//todo
         return remoteDataSource.delete("https://dummy.restapiexample.com/api/v1/delete/${employeeId}")
-            .map {
-                if (it.status == "success"){
-                    localDataSource.deleteById(employeeId)
-                }
-            }
             .map {
                 Resource.Success(Unit)
             }
-
     }
 
-    override fun update(employeeId: Long, employeeDetails: Employee): Completable {
+    override fun update(employeeId: Long, employeeDetails: Employee): Observable<String> {
         TODO("Not yet implemented")
     }
 
@@ -77,6 +70,10 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
             .map {
                 it.data
             }
+    }
+
+    override fun deleteById(id: Long): Completable {
+        return localDataSource.deleteById(id)
     }
 
 }

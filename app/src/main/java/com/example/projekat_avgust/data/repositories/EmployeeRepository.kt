@@ -10,6 +10,9 @@ interface EmployeeRepository {
     fun fetchAllFromServer(): Observable<Resource<Unit>>
     fun getAll(): Observable<List<Employee>>
     fun delete(employeeId: Long): Observable<Resource<Unit>>
-    fun update(employeeId: Long, employeeDetails: Employee): Completable
+    fun update(employeeId: Long, employeeDetails: Employee): Observable<String>
     fun details(employeeId: Long): Observable<EmployeeResponse>
+
+    fun deleteById(id: Long): Completable
+
 }

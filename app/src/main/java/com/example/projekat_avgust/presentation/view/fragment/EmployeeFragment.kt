@@ -46,7 +46,7 @@ class EmployeeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        init()//todo povuku se novi podaci uvek
     }
 
     private fun init() {
@@ -84,7 +84,7 @@ class EmployeeFragment : Fragment() {
             }
 
             when(radioButton.text.toString()){//todo dodaj funkcionalnost
-                "Delete employee" -> println("delete")// employeeViewModel.deleteEmployee()
+                "Delete employee" -> employeeViewModel.deleteEmployee(employee.id)
                 "Update employee" -> println("update")//employeeViewModel.updateEmployee()
                 "Employee details" -> employeeViewModel.detailedEmployee(employee.id)
             }
@@ -117,6 +117,9 @@ class EmployeeFragment : Fragment() {
                 intent.putExtra("salary", state.detailed.employee_salary)
                 intent.putExtra("age", state.detailed.employee_age)
                 startActivity(intent)
+            }
+            is EmployeeState.Deleted -> {
+                Toast.makeText(context, "Deleted user with id: " + state.detailed, Toast.LENGTH_SHORT).show()
             }
             is EmployeeState.Error -> {
                 Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()

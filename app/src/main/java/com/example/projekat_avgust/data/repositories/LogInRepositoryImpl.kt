@@ -1,7 +1,7 @@
 package com.example.projekat_avgust.data.repositories
 
 import com.example.projekat_avgust.data.datasources.remote.LogInDataSource
-import com.example.projekat_avgust.data.models.response.LogInRequestBody
+import com.example.projekat_avgust.data.models.responseRequest.LogInRequestBody
 import com.example.projekat_avgust.data.models.User
 import io.reactivex.Observable
 

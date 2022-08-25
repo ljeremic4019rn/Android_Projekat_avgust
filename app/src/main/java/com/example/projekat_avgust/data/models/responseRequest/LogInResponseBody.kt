@@ -1,4 +1,4 @@
-package com.example.projekat_avgust.data.models.response
+package com.example.projekat_avgust.data.models.responseRequest
 
 import com.squareup.moshi.JsonClass
 
