@@ -16,8 +16,8 @@ import timber.log.Timber
 class LogInActivity : AppCompatActivity() {
 
     private val logInViewModel: LogInContract.LogInViewModel by viewModel<LogInViewModel>()
-
     private lateinit var binding: ActivityLogInBinding
+
     var username: String = ""
     var password: String = ""
     lateinit var save: SharedPreferences.Editor

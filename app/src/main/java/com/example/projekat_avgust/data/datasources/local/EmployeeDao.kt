@@ -17,11 +17,15 @@ abstract class EmployeeDao {
     @Query("DELETE FROM employees")
     abstract fun deleteAll()
 
+    @Query("DELETE FROM employees WHERE id == :id")
+    abstract fun deleteById(id: Long): Completable
+
+    @Query("UPDATE employees SET name = :name, salary = :salary, age = :age  WHERE id == :id ")
+    abstract fun update(id: Long, name: String, salary: String, age: String): Completable
+
     @Transaction
     open fun deleteAndInsertAll(entities: List<EmployeeEntity>) {
         deleteAll()
         insertAll(entities).blockingAwait()
     }
-
-
 }

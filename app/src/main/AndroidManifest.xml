@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoBar">
         <activity
+            android:name=".presentation.view.activity.CreateEmployeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.view.activity.DetailedEmployeeActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.activity.MainActivity"
             android:exported="false" />
         <activity

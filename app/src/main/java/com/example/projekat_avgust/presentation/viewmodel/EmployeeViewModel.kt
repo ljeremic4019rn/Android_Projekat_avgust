@@ -2,6 +2,7 @@ package com.example.projekat_avgust.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.projekat_avgust.data.models.Employee
 import com.example.projekat_avgust.data.models.Resource
 import com.example.projekat_avgust.data.repositories.EmployeeRepository
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
@@ -16,8 +17,6 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
     private val subscriptions = CompositeDisposable()
     override val employeeState: MutableLiveData<EmployeeState> = MutableLiveData()
     override var testVar: MutableLiveData<Int> = MutableLiveData()
-
-
 
     override fun fetchAllEmployeesFromServer() {
         val subscription = employeeRepository
@@ -59,4 +58,31 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             )
         subscriptions.add(subscription)
     }
+
+    override fun deleteEmployee(employeeId: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateEmployee(employeeId: Long, employeeDetails: Employee) {
+        TODO("Not yet implemented")
+    }
+
+    override fun detailedEmployee(employeeId: Long) {
+        val subscription = employeeRepository
+            .details(employeeId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    employeeState.value = EmployeeState.Detailed(it)
+                },
+                {
+                    employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
+
 }
