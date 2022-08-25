@@ -1,5 +1,6 @@
 package com.example.projekat_avgust.presentation.view.fragment
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,12 +22,16 @@ import com.example.projekat_avgust.databinding.FragmentEmployeesBinding
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
 import com.example.projekat_avgust.presentation.view.activity.DetailedEmployeeActivity
 import com.example.projekat_avgust.presentation.view.activity.MainActivity
+import com.example.projekat_avgust.presentation.view.activity.UpdateEmployeeActivity
 import com.example.projekat_avgust.presentation.view.recycler.adapter.EmployeeAdapter
 import com.example.projekat_avgust.presentation.view.states.EmployeeState
 import com.example.projekat_avgust.presentation.viewmodel.EmployeeViewModel
 import kotlinx.android.synthetic.main.activity_log_in.view.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.*
 
 class EmployeeFragment : Fragment() {
 
@@ -85,7 +92,7 @@ class EmployeeFragment : Fragment() {
 
             when(radioButton.text.toString()){//todo dodaj funkcionalnost
                 "Delete employee" -> employeeViewModel.deleteEmployee(employee.id)
-                "Update employee" -> employeeViewModel.updateEmployee(employee.id, "Marko Markovic" , 300000, 69) //todo podaci iz novog prozora
+                "Update employee" -> startUpdateActivity(employee.id) //employeeViewModel.updateEmployee(employee.id, "Marko Markovic" , 300000, 69) //todo podaci iz novog prozora
                 "Employee details" -> employeeViewModel.detailedEmployee(employee.id)
             }
             builder.dismiss()
@@ -94,6 +101,27 @@ class EmployeeFragment : Fragment() {
         builder.setCanceledOnTouchOutside(false)
         builder.show()
     }
+
+    fun startUpdateActivity(id: Long) {
+        val intent = Intent(activity, UpdateEmployeeActivity::class.java)
+        intent.putExtra("id", id)
+        doAction.launch(intent)
+    }
+
+    private val doAction: ActivityResultLauncher<Intent> = registerForActivityResult( ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val data = it.data!!
+
+            val id = data.getLongExtra("id",0)
+            val newName = data.getStringExtra("name")!!
+            val newSalary = data.getIntExtra("salary",0)
+            val newAge = data.getIntExtra("age",0)
+
+            employeeViewModel.updateEmployee(id,newName,newSalary,newAge)
+        }
+    }
+
+
 
     private fun initObservers() {
         employeeViewModel.employeeState.observe(viewLifecycleOwner) { employeeState ->
