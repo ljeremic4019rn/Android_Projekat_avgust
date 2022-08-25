@@ -11,4 +11,6 @@
     <string name="delete_employee">Delete employee</string>
     <string name="update_employee">Update employee</string>
     <string name="employee_details">Employee details</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>

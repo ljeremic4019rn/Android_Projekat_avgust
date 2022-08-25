@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,6 +19,7 @@ import com.example.projekat_avgust.presentation.contract.EmployeeContract
 import com.example.projekat_avgust.presentation.view.recycler.adapter.EmployeeAdapter
 import com.example.projekat_avgust.presentation.view.states.EmployeeState
 import com.example.projekat_avgust.presentation.viewmodel.EmployeeViewModel
+import kotlinx.android.synthetic.main.activity_log_in.view.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
@@ -25,7 +29,6 @@ class EmployeeFragment : Fragment() {
     private var _binding: FragmentEmployeesBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: EmployeeAdapter
-    val alertDialogBuilder = AlertDialog.Builder(activity)
 
 
 
@@ -56,12 +59,32 @@ class EmployeeFragment : Fragment() {
         binding.employeeRv.adapter = adapter
     }
 
-    private fun openDetailed(employee: Employee){//todo dialog box
-//        val builder = AlertDialog.Builder(activity, R.style.Option).create()
+    private fun openDetailed(employee: Employee){
+        val builder = AlertDialog.Builder(activity,R.style.CustomAlertDialog).create()
+        val view = layoutInflater.inflate(R.layout.options_dialog_box,null)
 
+        val  cancelBtn = view.findViewById<Button>(R.id.cancelBtn)
+        val  okBtn = view.findViewById<Button>(R.id.okBtn)
+        val  radioGroup = view.findViewById<RadioGroup>(R.id.radioGroupEmployees)
 
+        builder.setView(view)
 
+        cancelBtn.setOnClickListener {
+            builder.dismiss()
+        }
 
+        okBtn.setOnClickListener {
+            val radioButton =view.findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
+
+            when(radioButton.text.toString()){//todo dodaj funkcionalnost
+                "Delete employee" -> println("delete")
+                "Update employee" -> println("update")
+                "Employee details" -> println("details")
+            }
+        }
+
+        builder.setCanceledOnTouchOutside(false)
+        builder.show()
     }
 
     private fun initObservers() {
