@@ -1,14 +1,15 @@
 package com.example.projekat_avgust.presentation.view.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.projekat_avgust.R
 import com.example.projekat_avgust.data.models.Employee
 import com.example.projekat_avgust.databinding.FragmentEmployeesBinding
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
@@ -21,11 +22,11 @@ import timber.log.Timber
 class EmployeeFragment : Fragment() {
 
     private val employeeViewModel: EmployeeContract.ViewModel by sharedViewModel<EmployeeViewModel>()
-
     private var _binding: FragmentEmployeesBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var adapter: EmployeeAdapter
+    val alertDialogBuilder = AlertDialog.Builder(activity)
+
 
 
     override fun onCreateView(
@@ -55,9 +56,12 @@ class EmployeeFragment : Fragment() {
         binding.employeeRv.adapter = adapter
     }
 
-    private fun openDetailed(employee: Employee){
-        Toast.makeText(context, "kliknut je ${employee.id}", Toast.LENGTH_SHORT).show()
-        //todo otvori pop-up sa opcijama
+    private fun openDetailed(employee: Employee){//todo dialog box
+//        val builder = AlertDialog.Builder(activity, R.style.Option).create()
+
+
+
+
     }
 
     private fun initObservers() {

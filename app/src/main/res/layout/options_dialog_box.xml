@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="160dp">
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="408dp"
+        android:layout_height="106dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <RadioButton
+            android:id="@+id/deleteRb"
+            android:layout_width="201dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="#1A99C4"
+            android:text="@string/delete_employee" />
+
+        <RadioButton
+            android:id="@+id/updateRb"
+            android:layout_width="201dp"
+            android:layout_height="43dp"
+            android:layout_weight="1"
+            android:buttonTint="#1A99C4"
+            android:text="@string/update_employee"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="54dp" />
+
+        <RadioButton
+            android:id="@+id/detailedRb"
+            android:layout_width="201dp"
+            android:layout_height="43dp"
+            android:layout_weight="1"
+            android:buttonTint="#1A99C4"
+            android:text="@string/employee_details"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="54dp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="#00FFFFFF"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.304" />
+
+    <Button
+        android:id="@+id/okBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="#00FFFFFF"
+        android:text="ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.304" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
