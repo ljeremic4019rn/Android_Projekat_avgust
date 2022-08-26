@@ -8,7 +8,6 @@ import com.example.projekat_avgust.data.models.Resource
 import com.example.projekat_avgust.data.repositories.EmployeeRepository
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
 import com.example.projekat_avgust.presentation.view.states.EmployeeState
-import com.example.projekat_avgust.presentation.view.states.TempState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -18,9 +17,13 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
 
     private val subscriptions = CompositeDisposable()
     override val employeeState: MutableLiveData<EmployeeState> = MutableLiveData()
-
     override val newEmployees: MutableLiveData<List<Employee>> = MutableLiveData()
+    override val gradualRvList: MutableLiveData<List<Employee>> = MutableLiveData()
+    override var allEmployeesLocal: List<Employee> = arrayListOf()
+
     private var tempList: ArrayList<Employee> = arrayListOf()
+    private var sizeCounter = 0
+
 
     override fun fetchAllEmployeesFromServer() {
         val subscription = employeeRepository
@@ -60,6 +63,25 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             )
         subscriptions.add(subscription)
     }
+
+    override fun load10Employees(initial: Boolean){
+
+        if (sizeCounter >= allEmployeesLocal.size) return
+
+        val tmpArrayList: ArrayList<Employee> = arrayListOf()
+        when {
+            initial -> sizeCounter = 9
+            sizeCounter + 10 <= allEmployeesLocal.size -> sizeCounter += 10
+            else -> sizeCounter += (allEmployeesLocal.size - sizeCounter)
+        }
+
+        for (i in 0..sizeCounter) tmpArrayList.add(allEmployeesLocal[i])
+
+        gradualRvList.value = tmpArrayList
+    }
+
+
+
 
     override fun deleteEmployee(employeeId: Long) {
         val subscription = employeeRepository
@@ -194,12 +216,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
                 newEmployees.value = tempList
             }
         },120000)
-
         //10000 - 10 sec
         //120000 - 2 min
     }
-
-
-
-
 }

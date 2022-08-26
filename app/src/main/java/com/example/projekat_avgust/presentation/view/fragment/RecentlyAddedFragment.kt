@@ -13,7 +13,6 @@ import com.example.projekat_avgust.data.models.Employee
 import com.example.projekat_avgust.databinding.RecentlyAddedFragmentBinding
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
 import com.example.projekat_avgust.presentation.view.recycler.adapter.EmployeeAdapter
-import com.example.projekat_avgust.presentation.view.states.TempState
 import com.example.projekat_avgust.presentation.viewmodel.EmployeeViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

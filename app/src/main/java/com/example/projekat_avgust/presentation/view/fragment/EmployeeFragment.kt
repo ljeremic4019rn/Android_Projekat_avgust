@@ -1,9 +1,11 @@
 package com.example.projekat_avgust.presentation.view.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +18,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.projekat_avgust.R
 import com.example.projekat_avgust.data.models.Employee
 import com.example.projekat_avgust.databinding.FragmentEmployeesBinding
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
 import com.example.projekat_avgust.presentation.view.activity.DetailedEmployeeActivity
-import com.example.projekat_avgust.presentation.view.activity.MainActivity
 import com.example.projekat_avgust.presentation.view.activity.UpdateEmployeeActivity
 import com.example.projekat_avgust.presentation.view.recycler.adapter.EmployeeAdapter
 import com.example.projekat_avgust.presentation.view.states.EmployeeState
@@ -29,8 +31,6 @@ import com.example.projekat_avgust.presentation.viewmodel.EmployeeViewModel
 import kotlinx.android.synthetic.main.activity_log_in.view.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
-import java.time.LocalDate
-import java.time.ZoneId
 import java.util.*
 
 class EmployeeFragment : Fragment() {
@@ -71,7 +71,18 @@ class EmployeeFragment : Fragment() {
         adapter = EmployeeAdapter(::openDetailed)//callback za on click
         binding.employeeRv.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
         binding.employeeRv.adapter = adapter
+
+
+        binding.employeeRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)){
+                    employeeViewModel.load10Employees(false)
+                }
+            }
+        })
     }
+
 
     private fun openDetailed(employee: Employee){
         val builder = AlertDialog.Builder(activity,R.style.CustomAlertDialog).create()
@@ -97,7 +108,7 @@ class EmployeeFragment : Fragment() {
 
             when(radioButton.text.toString()){//todo dodaj funkcionalnost
                 "Delete employee" -> employeeViewModel.deleteEmployee(employee.id)
-                "Update employee" -> startUpdateActivity(employee.id) //employeeViewModel.updateEmployee(employee.id, "Marko Markovic" , 300000, 69) //todo podaci iz novog prozora
+                "Update employee" -> startUpdateActivity(employee.id)
                 "Employee details" -> employeeViewModel.detailedEmployee(employee.id)
             }
             builder.dismiss()
@@ -107,7 +118,7 @@ class EmployeeFragment : Fragment() {
         builder.show()
     }
 
-    fun startUpdateActivity(id: Long) {
+    private fun startUpdateActivity(id: Long) {
         val intent = Intent(activity, UpdateEmployeeActivity::class.java)
         intent.putExtra("id", id)
         doAction.launch(intent)
@@ -126,12 +137,19 @@ class EmployeeFragment : Fragment() {
         }
     }
 
-
-
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObservers() {
         employeeViewModel.employeeState.observe(viewLifecycleOwner) { employeeState ->
             Timber.e(employeeState.toString())
             renderState(employeeState)
+        }
+
+        employeeViewModel.gradualRvList.observe(viewLifecycleOwner) {
+
+            Toast.makeText(context, "Loading employees", Toast.LENGTH_SHORT).show()
+
+            adapter.submitList(it)
+            adapter.notifyDataSetChanged()
         }
 
         employeeViewModel.getAllEmployees()
@@ -141,17 +159,22 @@ class EmployeeFragment : Fragment() {
     private fun renderState(state: EmployeeState) {
         when (state) {
             is EmployeeState.Success -> {
-                adapter.submitList(state.employees)
+//                adapter.submitList(state.employees)
+                employeeViewModel.allEmployeesLocal = state.employees
+                employeeViewModel.load10Employees(true)
             }
             is EmployeeState.Detailed -> {
                 val intent = Intent(activity, DetailedEmployeeActivity::class.java)
                 intent.putExtra("name", state.detailed.employee_name)
                 intent.putExtra("salary", state.detailed.employee_salary)
-                intent.putExtra("age", state.detailed.employee_age)
+                intent.putExtra("ageG", state.detailed.employee_age)
                 startActivity(intent)
             }
             is EmployeeState.Deleted -> {
                 Toast.makeText(context, "Deleted user with id: " + state.detailed, Toast.LENGTH_SHORT).show()
+            }
+            is EmployeeState.Created -> {
+                Toast.makeText(context, "CREATED " + state.detailed, Toast.LENGTH_SHORT).show()
             }
             is EmployeeState.Error -> {
                 Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
