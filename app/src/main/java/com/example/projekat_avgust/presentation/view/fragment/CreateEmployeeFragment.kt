@@ -68,6 +68,10 @@ class CreateEmployeeFragment : Fragment(){
 
             if (name != "" && salary > 0 && age > 0){
                 employeeViewModel.addNewEmployee(Employee(0, name, salary.toString(), age.toString(), ""))
+
+                nameET.setText("")
+                ageET.setText("0")
+                salaryET.setText("0")
             }
             else Toast.makeText(activity, "Please fill in all fields properly ", Toast.LENGTH_SHORT).show()
 

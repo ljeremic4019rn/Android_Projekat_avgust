@@ -77,6 +77,7 @@ class EmployeeFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)){
+                    Toast.makeText(context, "Loading employees", Toast.LENGTH_SHORT).show()
                     employeeViewModel.load10Employees(false)
                 }
             }
@@ -145,9 +146,6 @@ class EmployeeFragment : Fragment() {
         }
 
         employeeViewModel.gradualRvList.observe(viewLifecycleOwner) {
-
-            Toast.makeText(context, "Loading employees", Toast.LENGTH_SHORT).show()
-
             adapter.submitList(it)
             adapter.notifyDataSetChanged()
         }

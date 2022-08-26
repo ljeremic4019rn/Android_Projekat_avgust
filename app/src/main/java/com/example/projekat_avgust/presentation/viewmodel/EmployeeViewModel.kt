@@ -11,6 +11,8 @@ import com.example.projekat_avgust.presentation.view.states.EmployeeState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 import timber.log.Timber
 
 class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) : ViewModel(), EmployeeContract.ViewModel {
@@ -73,6 +75,9 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         }
 
         if (sizeCounter >= allEmployeesLocal.size) return
+
+        println("counter $sizeCounter list ${allEmployeesLocal.size}")
+
 
         for (i in 0..sizeCounter)
             tmpArrayList.add(allEmployeesLocal[i])
