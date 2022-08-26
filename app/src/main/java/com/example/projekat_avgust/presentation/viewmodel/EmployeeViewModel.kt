@@ -65,9 +65,6 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
     }
 
     override fun load10Employees(initial: Boolean){
-
-        if (sizeCounter >= allEmployeesLocal.size) return
-
         val tmpArrayList: ArrayList<Employee> = arrayListOf()
         when {
             initial -> sizeCounter = 9
@@ -75,12 +72,13 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             else -> sizeCounter += (allEmployeesLocal.size - sizeCounter)
         }
 
-        for (i in 0..sizeCounter) tmpArrayList.add(allEmployeesLocal[i])
+        if (sizeCounter >= allEmployeesLocal.size) return
+
+        for (i in 0..sizeCounter)
+            tmpArrayList.add(allEmployeesLocal[i])
 
         gradualRvList.value = tmpArrayList
     }
-
-
 
 
     override fun deleteEmployee(employeeId: Long) {
