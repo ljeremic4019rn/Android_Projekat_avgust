@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.example.projekat_avgust.R
 import com.example.projekat_avgust.databinding.FragmentCreationBinding
 import com.example.projekat_avgust.presentation.view.recycler.adapter.TopNavPageAdapter
 import com.google.android.material.tabs.TabLayout

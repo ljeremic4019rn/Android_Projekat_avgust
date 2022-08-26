@@ -1,6 +1,5 @@
 package com.example.projekat_avgust.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projekat_avgust.data.models.User
@@ -13,9 +12,6 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class LogInViewModel(private val logInRepository: LogInRepository) : ViewModel(), LogInContract.LogInViewModel{
-
-    private val user: MutableLiveData<User> = MutableLiveData()
-    var flag: Boolean = false
 
     private val subscriptions = CompositeDisposable()
     override val logInState: MutableLiveData<LogInState> = MutableLiveData()

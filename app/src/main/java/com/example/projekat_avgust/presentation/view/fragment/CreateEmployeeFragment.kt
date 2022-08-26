@@ -1,6 +1,5 @@
 package com.example.projekat_avgust.presentation.view.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.projekat_avgust.R
 import com.example.projekat_avgust.data.models.Employee
 import com.example.projekat_avgust.databinding.AddEmployeeFragmentBinding
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
@@ -61,7 +58,7 @@ class CreateEmployeeFragment : Fragment(){
     }
 
     private fun initListeners(){
-        submitBtn.setOnClickListener(){
+        submitBtn.setOnClickListener {
             name =  nameET.text.toString()
             salary =  salaryET.text.toString().toInt()
             age = ageET.text.toString().toInt()

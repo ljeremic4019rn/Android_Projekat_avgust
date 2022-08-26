@@ -19,8 +19,8 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
 
     var username: String = ""
-    var password: String = ""
-    lateinit var save: SharedPreferences.Editor
+    private var password: String = ""
+    private lateinit var save: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun initView(){
-        val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE);
+        val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
         save = sharedPreferences.edit()
         binding.btnlogin.setOnClickListener{
             username = binding.inputUsername.text.toString()

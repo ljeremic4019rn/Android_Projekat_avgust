@@ -3,7 +3,7 @@ package com.example.projekat_avgust.modules
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.rmaproject2.data.datasource.local.EmployeeDataBase
+import com.example.projekat_avgust.data.datasources.local.EmployeeDataBase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import okhttp3.OkHttpClient

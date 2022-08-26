@@ -42,7 +42,7 @@ class UpdateEmployeeActivity : AppCompatActivity() {
     }
 
     private fun initListeners(){
-        submitBtn.setOnClickListener(){
+        submitBtn.setOnClickListener {
             name =  nameET.text.toString()
             salary =  salaryET.text.toString().toInt()
             age = ageET.text.toString().toInt()

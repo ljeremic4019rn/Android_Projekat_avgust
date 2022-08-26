@@ -11,8 +11,6 @@ import com.example.projekat_avgust.presentation.view.states.EmployeeState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.internal.notify
-import okhttp3.internal.notifyAll
 import timber.log.Timber
 
 class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) : ViewModel(), EmployeeContract.ViewModel {
@@ -163,7 +161,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    employeeState.value = EmployeeState.Detailed(it)//todo stavi da detailed vuce iz base a ne sa servera
+                    employeeState.value = EmployeeState.Detailed(it)
                 },
                 {
                     employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")

@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,10 +27,8 @@ import com.example.projekat_avgust.presentation.view.activity.UpdateEmployeeActi
 import com.example.projekat_avgust.presentation.view.recycler.adapter.EmployeeAdapter
 import com.example.projekat_avgust.presentation.view.states.EmployeeState
 import com.example.projekat_avgust.presentation.viewmodel.EmployeeViewModel
-import kotlinx.android.synthetic.main.activity_log_in.view.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
-import java.util.*
 
 class EmployeeFragment : Fragment() {
 
@@ -66,7 +63,7 @@ class EmployeeFragment : Fragment() {
         initObservers()
     }
 
-    private fun initRecycler() {//todo PAGINACIJA
+    private fun initRecycler() {
         binding.employeeRv.layoutManager = LinearLayoutManager(context)
         adapter = EmployeeAdapter(::openDetailed)//callback za on click
         binding.employeeRv.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
@@ -107,7 +104,7 @@ class EmployeeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            when(radioButton.text.toString()){//todo dodaj funkcionalnost
+            when(radioButton.text.toString()){
                 "Delete employee" -> employeeViewModel.deleteEmployee(employee.id)
                 "Update employee" -> startUpdateActivity(employee.id)
                 "Employee details" -> employeeViewModel.detailedEmployee(employee.id)
@@ -165,7 +162,7 @@ class EmployeeFragment : Fragment() {
                 val intent = Intent(activity, DetailedEmployeeActivity::class.java)
                 intent.putExtra("name", state.detailed.employee_name)
                 intent.putExtra("salary", state.detailed.employee_salary)
-                intent.putExtra("ageG", state.detailed.employee_age)
+                intent.putExtra("age", state.detailed.employee_age)
                 startActivity(intent)
             }
             is EmployeeState.Deleted -> {

@@ -18,7 +18,11 @@ class DetailedEmployeeActivity : AppCompatActivity() {
         initView()
     }
 
-    private fun initView(){//todo prosledi podatke ovde
+    private fun initView(){
+
+        println("kuarc")
+        println(intent.getStringExtra("age"))
+
         binding.emplName.text = intent.getStringExtra("name")
         binding.emplSalary.text = intent.getStringExtra("salary")
         binding.emplAge.text  = intent.getStringExtra("age")
