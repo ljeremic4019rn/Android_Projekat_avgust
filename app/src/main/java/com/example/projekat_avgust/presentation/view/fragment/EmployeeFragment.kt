@@ -40,6 +40,7 @@ class EmployeeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: EmployeeAdapter
 
+    private var dataPull: Boolean = true
 
 
     override fun onCreateView(
@@ -53,10 +54,15 @@ class EmployeeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()//todo povuku se novi podaci uvek
+        init()
     }
 
     private fun init() {
+        if (dataPull){
+            employeeViewModel.fetchAllEmployeesFromServer()
+            dataPull = false
+        }
+
         initRecycler()
         initObservers()
     }
@@ -128,8 +134,6 @@ class EmployeeFragment : Fragment() {
             Timber.e(employeeState.toString())
             renderState(employeeState)
         }
-
-        employeeViewModel.fetchAllEmployeesFromServer()
         employeeViewModel.getAllEmployees()
     }
 

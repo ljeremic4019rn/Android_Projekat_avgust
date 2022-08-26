@@ -17,4 +17,7 @@ interface EmployeeDataSource {
 
     @GET
     fun details(@Url url: String?): Observable<EmployeeResponseSingle>
+
+    @POST
+    fun addEmployee(@Url url: String?, @Body body: EmployeeRequestUpdate): Observable<EmployeeResponseSingle>
 }

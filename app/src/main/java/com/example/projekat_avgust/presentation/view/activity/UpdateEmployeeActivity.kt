@@ -32,10 +32,10 @@ class UpdateEmployeeActivity : AppCompatActivity() {
 
 
     private fun initView(){
-        nameET = findViewById(R.id.nameInput)
-        salaryET = findViewById(R.id.salaryInput)
-        ageET = findViewById(R.id.ageInput)
-        submitBtn = findViewById(R.id.submitBtn)
+        nameET = findViewById(R.id.nameCreate)
+        salaryET = findViewById(R.id.salaryCreate)
+        ageET = findViewById(R.id.ageCreate)
+        submitBtn = findViewById(R.id.createBtn)
 
         ageET.setText("0")
         salaryET.setText("0")

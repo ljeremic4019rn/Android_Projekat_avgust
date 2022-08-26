@@ -57,7 +57,6 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
     }
 
     override fun update(employeeId: Long, name: String, salary: Int, age: Int): Observable<EmployeeResponse> {
-        println("uspesno usli")
         return remoteDataSource
             .update(
                 "https://dummy.restapiexample.com/api/v1/update/${employeeId}",
@@ -78,12 +77,27 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
             }
     }
 
+    override fun add(employee: Employee): Observable<EmployeeResponse> {
+        return remoteDataSource
+            .addEmployee(
+                "https://dummy.restapiexample.com/api/v1/create",
+                EmployeeRequestUpdate(employee.id, employee.name, employee.salary.toInt(), employee.age.toInt(), "notNull")
+            )
+            .map {
+                it.data
+            }
+    }
+
     override fun deleteById(id: Long): Completable {
         return localDataSource.deleteById(id)
     }
 
     override fun updateById(id: Long, name: String, salary: Int, age: Int): Completable {
         return localDataSource.update(id, name, salary, age)
+    }
+
+    override fun addToDb(id: Long, name: String, salary: Int, age: Int): Completable {
+        return localDataSource.insert(EmployeeEntity(id, name, salary.toString(), age.toString(), ""))
     }
 
 }

@@ -17,4 +17,5 @@
     <string name="age">Age</string>
     <string name="salary">Salary</string>
     <string name="name">Name</string>
+    <string name="add_a_new_employee">Add a new employee</string>
 </resources>

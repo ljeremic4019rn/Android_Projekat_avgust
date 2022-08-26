@@ -11,5 +11,6 @@ EmployeeState {
     data class Detailed(val detailed: EmployeeResponse): EmployeeState()
     data class Deleted(val detailed: Long): EmployeeState()
     data class Updated(val detailed: EmployeeResponse): EmployeeState()
+    data class Created(val detailed: EmployeeResponse): EmployeeState()
     data class Error(val message: String): EmployeeState()
 }

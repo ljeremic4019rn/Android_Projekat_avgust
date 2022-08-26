@@ -16,5 +16,6 @@ interface EmployeeContract {
         fun deleteEmployee(employeeId: Long)
         fun updateEmployee(employeeId: Long, name: String, salary: Int, age: Int)
         fun detailedEmployee(employeeId: Long)
+        fun addNewEmployee(employee: Employee)
     }
 }

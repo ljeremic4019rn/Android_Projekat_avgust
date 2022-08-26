@@ -13,8 +13,8 @@
 
     <fragment
         android:id="@+id/nav_create_user"
-        android:name="com.example.projekat_avgust.presentation.view.fragment.CreateFragment"
+        android:name="com.example.projekat_avgust.presentation.view.fragment.CreationFragment"
         android:label="@string/user_creation"
-        tools:layout="@layout/fragment_create" />
+        tools:layout="@layout/fragment_creation" />
 
 </navigation>

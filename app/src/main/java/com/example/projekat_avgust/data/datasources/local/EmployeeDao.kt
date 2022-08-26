@@ -1,6 +1,7 @@
 package com.example.rmaproject2.data.datasource.local
 
 import androidx.room.*
+import com.example.projekat_avgust.data.models.Employee
 import com.example.projekat_avgust.data.models.EmployeeEntity
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -16,6 +17,9 @@ abstract class EmployeeDao {
 
     @Query("DELETE FROM employees")
     abstract fun deleteAll()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(employeeEntity: EmployeeEntity): Completable
 
     @Query("DELETE FROM employees WHERE id == :id")
     abstract fun deleteById(id: Long): Completable

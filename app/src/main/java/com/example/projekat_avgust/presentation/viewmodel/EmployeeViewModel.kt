@@ -31,8 +31,6 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
                         is Resource.Success -> employeeState.value = EmployeeState.DataFetched
                         is Resource.Error -> employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
                     }
-
-
                 },
                 {
                     employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
@@ -140,6 +138,40 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
                 },
                 {
                     employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
+    override fun addNewEmployee(employee: Employee) {
+        val subscription = employeeRepository
+            .add(employee)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    employeeState.value = EmployeeState.Created(it)
+                    addToDb(employee.id, employee.name, employee.salary.toInt(), employee.age.toInt())
+                },
+                {
+                    employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
+    private fun addToDb(id: Long, name: String, salary: Int, age: Int){
+        val subscription = employeeRepository
+            .addToDb(id, name, salary, age)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    Timber.e("CREATED")
+                },
+                {
                     Timber.e(it)
                 }
             )
