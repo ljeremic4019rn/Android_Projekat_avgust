@@ -41,7 +41,7 @@ class CreationFragment : Fragment(){
 
     private fun initView(){
         viewPager = binding.viewPagerTabs
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 4
         tabLayout = binding.tabLayout
 
         viewPager.adapter = TopNavPageAdapter(requireActivity().supportFragmentManager)

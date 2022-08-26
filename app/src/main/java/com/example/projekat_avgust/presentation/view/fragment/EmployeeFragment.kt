@@ -58,11 +58,10 @@ class EmployeeFragment : Fragment() {
     }
 
     private fun init() {
-        if (dataPull){
+        if (dataPull){//ovo samo jednom radimo jer bi inace pregazilo sve promene, jer se na serveru ne menjaju podaci
             employeeViewModel.fetchAllEmployeesFromServer()
             dataPull = false
         }
-
         initRecycler()
         initObservers()
     }
@@ -134,6 +133,7 @@ class EmployeeFragment : Fragment() {
             Timber.e(employeeState.toString())
             renderState(employeeState)
         }
+
         employeeViewModel.getAllEmployees()
     }
 

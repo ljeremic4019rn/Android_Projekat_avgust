@@ -1,5 +1,6 @@
 package com.example.projekat_avgust.presentation.viewmodel
 
+import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projekat_avgust.data.models.Employee
@@ -7,6 +8,7 @@ import com.example.projekat_avgust.data.models.Resource
 import com.example.projekat_avgust.data.repositories.EmployeeRepository
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
 import com.example.projekat_avgust.presentation.view.states.EmployeeState
+import com.example.projekat_avgust.presentation.view.states.TempState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +18,9 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
 
     private val subscriptions = CompositeDisposable()
     override val employeeState: MutableLiveData<EmployeeState> = MutableLiveData()
-    override var testVar: MutableLiveData<Int> = MutableLiveData()
+
+    override val newEmployees: MutableLiveData<List<Employee>> = MutableLiveData()
+    private var tempList: ArrayList<Employee> = arrayListOf()
 
     override fun fetchAllEmployeesFromServer() {
         val subscription = employeeRepository
@@ -170,6 +174,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             .subscribe(
                 {
                     Timber.e("CREATED")
+                    addEmployeeToTempList(Employee(id, name, salary.toString(), age.toString(), ""))
                 },
                 {
                     Timber.e(it)
@@ -177,6 +182,24 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             )
         subscriptions.add(subscription)
     }
+
+    private fun addEmployeeToTempList(employee: Employee){
+        tempList.add(employee)
+        newEmployees.value = tempList//dodamo ga na listu
+
+        Handler().postDelayed({//cekamo da se izbrise i stvimo novu listu
+            if (tempList.contains(employee)){
+                tempList.remove(employee)
+
+                newEmployees.value = tempList
+            }
+        },120000)
+
+        //10000 - 10 sec
+        //120000 - 2 min
+    }
+
+
 
 
 }

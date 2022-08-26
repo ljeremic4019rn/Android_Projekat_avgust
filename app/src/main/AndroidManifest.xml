@@ -17,14 +17,12 @@
             android:name=".presentation.view.activity.UpdateEmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.view.activity.CreateEmployeeActivity"
-            android:exported="false" />
-        <activity
             android:name=".presentation.view.activity.DetailedEmployeeActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.view.activity.MainActivity"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustPan"
+        android:exported="false" />
         <activity
             android:name=".presentation.view.activity.LogInActivity"
             android:exported="false" />

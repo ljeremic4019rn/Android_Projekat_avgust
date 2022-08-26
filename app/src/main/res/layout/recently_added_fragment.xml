@@ -6,13 +6,28 @@
     android:layout_height="match_parent">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recentlyAddedRv"
+        android:layout_width="412dp"
+        android:layout_height="554dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/recently_added_employees"
+        android:textSize="27sp"
+        app:layout_constraintBottom_toTopOf="@+id/recentlyAddedRv"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.773" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
