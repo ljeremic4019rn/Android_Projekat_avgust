@@ -154,7 +154,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         subscriptions.add(subscription)
     }
 
-    override fun detailedEmployee(employeeId: Long) {
+    override fun detailedEmployee(employeeId: Long) { //todo dodaj da se vuce iz lokalne baze
         val subscription = employeeRepository
             .details(employeeId)
             .subscribeOn(Schedulers.io())

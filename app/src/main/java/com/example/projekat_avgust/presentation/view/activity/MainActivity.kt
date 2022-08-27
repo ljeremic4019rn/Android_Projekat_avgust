@@ -1,9 +1,12 @@
 package com.example.projekat_avgust.presentation.view.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -14,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.projekat_avgust.R
 import com.example.projekat_avgust.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,8 +43,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+
+        val email = findViewById<TextView>(R.id.boxEmail)
+
+        email.text = sharedPreferences.getString("email","server error")
+        Picasso
+            .get()
+            .load(sharedPreferences.getString("pfp",""))
+            .into(findViewById<ImageView>(R.id.boxPfp))
+
+
+
         return true
     }
 

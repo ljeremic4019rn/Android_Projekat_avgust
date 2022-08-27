@@ -75,6 +75,7 @@ class EmployeeFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)){
                     Toast.makeText(context, "Loading employees", Toast.LENGTH_SHORT).show()
+                    //todo try to fix
                     employeeViewModel.load10Employees(false)
                 }
             }

@@ -44,8 +44,8 @@ class LogInActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext,"Polja ne mogu bit prazna!",Toast.LENGTH_SHORT).show()
             }else {
                 save.putBoolean("logged", true);
-                save.putString("username", username.toString())
-                save.putString("password", password.toString())
+                save.putString("username", username)
+                save.putString("password", password)
                 logInViewModel.userAuth(username, password)
             }
         }
@@ -63,7 +63,7 @@ class LogInActivity : AppCompatActivity() {
                 Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show()
                 save.putString("firstName", state.user.firstName)
                 save.putString("lastName", state.user.lastName)
-                save.putString("gender", state.user.gender)
+                save.putString("email", state.user.email)
                 save.putString("pfp", state.user.image)
                 save.putBoolean("rememberMe", binding.checkBox.isChecked)
                 save.apply()

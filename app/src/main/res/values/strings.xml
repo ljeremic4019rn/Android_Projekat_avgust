@@ -19,4 +19,5 @@
     <string name="name">Name</string>
     <string name="add_a_new_employee">Add a new employee</string>
     <string name="recently_added_employees">Recently added employees</string>
+    <string name="raf_user_management">RAF User management</string>
 </resources>
