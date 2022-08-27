@@ -248,7 +248,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
     i aktiviramo thread koji ga nakon 2 min skloni iz te liste
      */
     private fun addEmployeeToTempList(employee: Employee){
-        tempList.add(employee)
+        tempList.add(0,employee)
         newEmployees.value = tempList//dodamo ga na listu
 
         Handler().postDelayed({//cekamo da se izbrise i stvimo novu listu
