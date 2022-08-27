@@ -4,7 +4,6 @@ import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projekat_avgust.data.models.Employee
-import com.example.projekat_avgust.data.models.EmployeeResponse
 import com.example.projekat_avgust.data.models.Resource
 import com.example.projekat_avgust.data.repositories.EmployeeRepository
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
@@ -24,7 +23,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
 
     private var tempList: ArrayList<Employee> = arrayListOf()
     private var sizeCounter = 0
-    private var test: Boolean = false
+    private var displayOnlyOnce: Boolean = false
 
 
     /*
@@ -173,7 +172,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    test = true
+                    displayOnlyOnce = true
                     detailedFromDbb(employeeId)
                 },
                 {
@@ -191,11 +190,13 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        if (test) {
+
+                        //ovaj check je zato sto ima bug da se ovaj blok aktivira randomly kada se pokrenu druge akcije iz baze
+                        if (displayOnlyOnce) {
                             Timber.e("DETAILED")
                             employeeState.value = EmployeeState.Detailed(it)
                         }
-                        test = false
+                        displayOnlyOnce = false
                     },
                     {
                         Timber.e(it)
