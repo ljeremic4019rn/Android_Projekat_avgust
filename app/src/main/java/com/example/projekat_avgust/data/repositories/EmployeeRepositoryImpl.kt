@@ -93,8 +93,6 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
     }
 
     override fun getFromId(id: Long): Observable<Employee> {
-        println("AKTIVIRANO JE GET IZ BAZE")
-
         return localDataSource.getById(id)
             .map { employeeEntity ->
                 Employee(
