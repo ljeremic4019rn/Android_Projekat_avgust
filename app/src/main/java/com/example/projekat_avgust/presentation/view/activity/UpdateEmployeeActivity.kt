@@ -47,7 +47,7 @@ class UpdateEmployeeActivity : AppCompatActivity() {
             salary =  salaryET.text.toString().toInt()
             age = ageET.text.toString().toInt()
 
-            if (name != "" && salary > 0 && age > 0){
+            if (name != "" && salary > 0 && age > 0){//ako su polja popunjena
                 val returnIntent = Intent()
                 returnIntent.putExtra("id", this.intent.getLongExtra("id", 0))
                 returnIntent.putExtra("name",name)

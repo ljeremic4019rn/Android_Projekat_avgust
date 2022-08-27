@@ -40,8 +40,10 @@ class LogInActivity : AppCompatActivity() {
         binding.btnlogin.setOnClickListener{
             username = binding.inputUsername.text.toString()
             password = binding.inputPassword.text.toString()
+
+
             if(username.isBlank() || password.isBlank()){
-                Toast.makeText(applicationContext,"Polja ne mogu bit prazna!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext,"Polja ne mogu bit prazna!",Toast.LENGTH_SHORT).show()//ako polja nisu prazna saljemo serveru podatke
             }else {
                 save.putBoolean("logged", true);
                 save.putString("username", username)
@@ -51,7 +53,7 @@ class LogInActivity : AppCompatActivity() {
         }
     }
     private fun initObservers(){
-        logInViewModel.logInState.observe(this) {
+        logInViewModel.logInState.observe(this) {//kada pokupimo response sa servera startujemo activity
             Timber.e(it.toString())
             startMainActivity(it)
         }
@@ -60,7 +62,7 @@ class LogInActivity : AppCompatActivity() {
     private fun startMainActivity(state: LogInState) {
         when (state) {
             is LogInState.Success -> {
-                Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show()//cuvamo response
                 save.putString("firstName", state.user.firstName)
                 save.putString("lastName", state.user.lastName)
                 save.putString("email", state.user.email)

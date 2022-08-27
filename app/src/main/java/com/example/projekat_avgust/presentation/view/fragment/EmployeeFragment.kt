@@ -105,8 +105,9 @@ class EmployeeFragment : Fragment() {
 
             when(radioButton.text.toString()){
                 "Delete employee" -> employeeViewModel.deleteEmployee(employee.id)
-                "Update employee" -> startUpdateActivity(employee.id)
                 "Employee details" -> employeeViewModel.detailedEmployee(employee.id)
+                "Update employee" -> startUpdateActivity(employee.id)
+                else -> println("error")
             }
             builder.dismiss()
         }
@@ -159,9 +160,9 @@ class EmployeeFragment : Fragment() {
             }
             is EmployeeState.Detailed -> {
                 val intent = Intent(activity, DetailedEmployeeActivity::class.java)
-                intent.putExtra("name", state.detailed.employee_name)
-                intent.putExtra("salary", state.detailed.employee_salary)
-                intent.putExtra("age", state.detailed.employee_age)
+                intent.putExtra("name", state.detailed.name)
+                intent.putExtra("salary", state.detailed.salary)
+                intent.putExtra("age", state.detailed.age)
                 startActivity(intent)
             }
             is EmployeeState.Deleted -> {

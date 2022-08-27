@@ -18,8 +18,7 @@ class DetailedEmployeeActivity : AppCompatActivity() {
         initView()
     }
 
-    private fun initView(){
-
+    private fun initView(){//prikazujemo date podatke
         binding.emplName.text = intent.getStringExtra("name")
         binding.emplSalary.text = intent.getStringExtra("salary")
         binding.emplAge.text  = intent.getStringExtra("age")
@@ -27,5 +26,10 @@ class DetailedEmployeeActivity : AppCompatActivity() {
         if (intent.getStringExtra("salary")?.toInt()!! >= 100000)
             binding.emplSalary.setTextColor(Color.parseColor("#1ee832"))
         else binding.emplSalary.setTextColor(Color.parseColor("#ff1100"))
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
     }
 }

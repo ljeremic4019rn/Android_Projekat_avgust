@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {//setupujemo drawer navigaciju
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,23 +43,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
 
         val email = findViewById<TextView>(R.id.boxEmail)
-
-        email.text = sharedPreferences.getString("email","server error")
+        email.text = sharedPreferences.getString("email","server error")//setujemo podatke u drawer navigatoru
         Picasso
             .get()
             .load(sharedPreferences.getString("pfp",""))
             .into(findViewById<ImageView>(R.id.boxPfp))
-
-
-
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {//stavljamo onclick za gornje desno logout dugme
         R.id.logoutBtn -> {
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
 

@@ -15,6 +15,9 @@ abstract class EmployeeDao {
     @Query("SELECT * FROM employees")
     abstract fun getAll(): Observable<List<EmployeeEntity>>
 
+    @Query("SELECT * FROM employees WHERE id == :id")
+    abstract fun getById(id: Long): Observable<EmployeeEntity>
+
     @Query("DELETE FROM employees")
     abstract fun deleteAll()
 

@@ -10,7 +10,7 @@ import io.reactivex.Observable
 
 class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private val remoteDataSource: EmployeeDataSource) : EmployeeRepository {
 
-    override fun fetchAllFromServer(): Observable<Resource<Unit>> {
+    override fun fetchAllFromServer(): Observable<Resource<Unit>> {//podaci sa servera
         return remoteDataSource
             .getAll(
                 "https://dummy.restapiexample.com/api/v1/employees"
@@ -32,7 +32,7 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
             }
     }
 
-    override fun getAll(): Observable<List<Employee>> {
+    override fun getAll(): Observable<List<Employee>> {//podaci iz baze
         return localDataSource
             .getAll()
             .map { it ->
@@ -49,14 +49,14 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
     }
 
     @SuppressLint("CheckResult")
-    override fun delete(employeeId: Long): Observable<Resource<Unit>> {
+    override fun delete(employeeId: Long): Observable<Resource<Unit>> {//delete na serveru
         return remoteDataSource.delete("https://dummy.restapiexample.com/api/v1/delete/${employeeId}")
             .map {
                 Resource.Success(Unit)
             }
     }
 
-    override fun update(employeeId: Long, name: String, salary: Int, age: Int): Observable<EmployeeResponse> {
+    override fun update(employeeId: Long, name: String, salary: Int, age: Int): Observable<EmployeeResponse> {//update na serveru
         return remoteDataSource
             .update(
                 "https://dummy.restapiexample.com/api/v1/update/${employeeId}",
@@ -67,7 +67,7 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
             }
     }
 
-    override fun details(employeeId: Long): Observable<EmployeeResponse> {
+    override fun details(employeeId: Long): Observable<EmployeeResponse> {//detaljan sa servera
         return remoteDataSource
             .details(
                 "https://dummy.restapiexample.com/api/v1/employee/${employeeId}"
@@ -77,7 +77,7 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
             }
     }
 
-    override fun add(employee: Employee): Observable<EmployeeResponse> {
+    override fun add(employee: Employee): Observable<EmployeeResponse> {//add na server
         return remoteDataSource
             .addEmployee(
                 "https://dummy.restapiexample.com/api/v1/create",
@@ -88,15 +88,30 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
             }
     }
 
-    override fun deleteById(id: Long): Completable {
+    override fun deleteById(id: Long): Completable {//delete u bazi
         return localDataSource.deleteById(id)
     }
 
-    override fun updateById(id: Long, name: String, salary: Int, age: Int): Completable {
+    override fun getFromId(id: Long): Observable<Employee> {
+        println("AKTIVIRANO JE GET IZ BAZE")
+
+        return localDataSource.getById(id)
+            .map { employeeEntity ->
+                Employee(
+                    id = employeeEntity.id,
+                    name  = employeeEntity.name,
+                    salary = employeeEntity.salary,
+                    age = employeeEntity.age,
+                    image = employeeEntity.image,
+                )
+            }
+    }
+
+    override fun updateById(id: Long, name: String, salary: Int, age: Int): Completable {//update u bazi
         return localDataSource.update(id, name, salary, age)
     }
 
-    override fun addToDb(id: Long, name: String, salary: Int, age: Int): Completable {
+    override fun addToDb(id: Long, name: String, salary: Int, age: Int): Completable {//add u bazi
         return localDataSource.insert(EmployeeEntity(id, name, salary.toString(), age.toString(), ""))
     }
 

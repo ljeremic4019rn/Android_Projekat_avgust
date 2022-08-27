@@ -15,6 +15,7 @@ class SplashActivity : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
             val logged = sharedPreferences.getBoolean("rememberMe", false)
 
+            //bira da li se logujemo ili samo startujemo
             if(logged) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)

@@ -4,6 +4,7 @@ import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projekat_avgust.data.models.Employee
+import com.example.projekat_avgust.data.models.EmployeeResponse
 import com.example.projekat_avgust.data.models.Resource
 import com.example.projekat_avgust.data.repositories.EmployeeRepository
 import com.example.projekat_avgust.presentation.contract.EmployeeContract
@@ -23,9 +24,16 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
 
     private var tempList: ArrayList<Employee> = arrayListOf()
     private var sizeCounter = 0
+    private var test: Boolean = false
 
 
-    override fun fetchAllEmployeesFromServer() {
+    /*
+    svaka akcija ide na server prvo a zatim kada se vrati success
+    poziva se akcija koja vraca podatke iz lokalne baze kako bi se imali prikazani izmenjeni podaci
+     */
+
+
+    override fun fetchAllEmployeesFromServer() {//sa servera
         val subscription = employeeRepository
             .fetchAllFromServer()
             .startWith(Resource.Loading())
@@ -47,7 +55,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         subscriptions.add(subscription)
     }
 
-    override fun getAllEmployees() {
+    override fun getAllEmployees() {//iz baze
         val subscription = employeeRepository
             .getAll()
             .subscribeOn(Schedulers.io())
@@ -64,7 +72,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         subscriptions.add(subscription)
     }
 
-    override fun load10Employees(initial: Boolean){
+    override fun load10Employees(initial: Boolean){//ucitava 10 po 10 employeea u main recycler, paginacija
         val tmpArrayList: ArrayList<Employee> = arrayListOf()
         when {
             initial -> sizeCounter = 9
@@ -76,12 +84,12 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
 
         println("counter $sizeCounter list ${allEmployeesLocal.size}")
 
-
         for (i in 0..sizeCounter)
             tmpArrayList.add(allEmployeesLocal[i])
 
         gradualRvList.value = tmpArrayList
     }
+
 
 
     override fun deleteEmployee(employeeId: Long) {
@@ -92,7 +100,10 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             .subscribe(
                 {
                     when(it) {
-                        is Resource.Success -> deleteFromDb(employeeId)
+                        is Resource.Success -> {
+                            deleteFromDb(employeeId)
+                            employeeState.value = EmployeeState.Deleted(employeeId)
+                        }
                         is Resource.Error -> employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
                     }
                 },
@@ -154,14 +165,16 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         subscriptions.add(subscription)
     }
 
-    override fun detailedEmployee(employeeId: Long) { //todo dodaj da se vuce iz lokalne baze
+
+    override fun detailedEmployee(employeeId: Long) {
         val subscription = employeeRepository
             .details(employeeId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    employeeState.value = EmployeeState.Detailed(it)
+                    test = true
+                    detailedFromDbb(employeeId)
                 },
                 {
                     employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
@@ -169,6 +182,27 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
                 }
             )
         subscriptions.add(subscription)
+    }
+
+    private fun detailedFromDbb (id: Long){
+            val subscription = employeeRepository
+                .getFromId(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        if (test) {
+                            Timber.e("DETAILED")
+                            employeeState.value = EmployeeState.Detailed(it)
+                        }
+                        test = false
+                    },
+                    {
+                        Timber.e(it)
+                    }
+                )
+            subscriptions.add(subscription)
+
     }
 
     override fun addNewEmployee(employee: Employee) {
@@ -206,6 +240,10 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         subscriptions.add(subscription)
     }
 
+    /*
+    kada se doda novi employee stavljamo ga u live data listu koju prikazujemo u recycler
+    i aktiviramo thread koji ga nakon 2 min skloni iz te liste
+     */
     private fun addEmployeeToTempList(employee: Employee){
         tempList.add(employee)
         newEmployees.value = tempList//dodamo ga na listu

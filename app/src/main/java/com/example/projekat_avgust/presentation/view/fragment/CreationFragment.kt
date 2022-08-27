@@ -33,12 +33,12 @@ class CreationFragment : Fragment(){
         initView()
     }
 
-    override fun onResume() {
+    override fun onResume() {//ima init u on resume jer se nije cuvao view
         super.onResume()
         initView()
     }
 
-    private fun initView(){
+    private fun initView(){//setupujemo tabove
         viewPager = binding.viewPagerTabs
         viewPager.offscreenPageLimit = 4
         tabLayout = binding.tabLayout
@@ -47,12 +47,8 @@ class CreationFragment : Fragment(){
         tabLayout.setupWithViewPager(viewPager)
     }
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

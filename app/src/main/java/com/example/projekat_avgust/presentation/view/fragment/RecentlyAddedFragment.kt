@@ -59,16 +59,14 @@ class RecentlyAddedFragment : Fragment(){
     @SuppressLint("NotifyDataSetChanged")
     private fun initObservers() {
         employeeViewModel.newEmployees.observe(viewLifecycleOwner) {
-            println("aktiviralo se")
             adapter.submitList(it)
-            adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()//notifikator da bi se promenio recycler nakon 2 min
         }
     }
 
     private fun openDetailed(employee: Employee){//mrzelo me da pravim nove adaptere tako da koristim isti kao za main recycler
         println("click")
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
