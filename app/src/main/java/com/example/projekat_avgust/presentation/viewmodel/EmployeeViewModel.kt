@@ -172,8 +172,9 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    displayOnlyOnce = true
-                    detailedFromDbb(employeeId)
+//                    displayOnlyOnce = true
+//                    detailedFromDbb(employeeId)
+                    employeeState.value = EmployeeState.Detailed(it)
                 },
                 {
                     employeeState.value = EmployeeState.Error("Error happened while fetching data from the server")
@@ -183,6 +184,8 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
         subscriptions.add(subscription)
     }
 
+
+    //po zahtevu profesora ne vuku se podaci iz lokalne baze engo samo sa api-a !!!
     private fun detailedFromDbb (id: Long){
             val subscription = employeeRepository
                 .getFromId(id)
@@ -194,7 +197,7 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
                         //ovaj check je zato sto ima bug da se ovaj blok aktivira randomly kada se pokrenu druge akcije iz baze
                         if (displayOnlyOnce) {
                             Timber.e("DETAILED")
-                            employeeState.value = EmployeeState.Detailed(it)
+//                            employeeState.value = EmployeeState.Detailed(it)
                         }
                         displayOnlyOnce = false
                     },
@@ -203,7 +206,6 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
                     }
                 )
             subscriptions.add(subscription)
-
     }
 
     override fun addNewEmployee(employee: Employee) {

@@ -1,5 +1,6 @@
 package com.example.projekat_avgust.presentation.view.activity
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.projekat_avgust.databinding.ActivityDetailedEmployeeBinding
@@ -18,10 +19,11 @@ class DetailedEmployeeActivity : AppCompatActivity() {
         initView()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView(){//prikazujemo date podatke
-        binding.emplName.text = intent.getStringExtra("name")
-        binding.emplSalary.text = intent.getStringExtra("salary")
-        binding.emplAge.text  = intent.getStringExtra("age")
+        binding.emplName.text = "Name: " + intent.getStringExtra("name")
+        binding.emplSalary.text = "Salary: " +  intent.getStringExtra("salary")
+        binding.emplAge.text  = "Age: " +  intent.getStringExtra("age")
 
         if (intent.getStringExtra("salary")?.toInt()!! >= 100000)
             binding.emplSalary.setTextColor(Color.parseColor("#1ee832"))

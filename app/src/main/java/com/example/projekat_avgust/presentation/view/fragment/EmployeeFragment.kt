@@ -160,9 +160,9 @@ class EmployeeFragment : Fragment() {
             }
             is EmployeeState.Detailed -> {
                 val intent = Intent(activity, DetailedEmployeeActivity::class.java)
-                intent.putExtra("name", state.detailed.name)
-                intent.putExtra("salary", state.detailed.salary)
-                intent.putExtra("age", state.detailed.age)
+                intent.putExtra("name", state.detailed.employee_name)
+                intent.putExtra("salary", state.detailed.employee_salary)
+                intent.putExtra("age", state.detailed.employee_age)
                 startActivity(intent)
             }
             is EmployeeState.Deleted -> {

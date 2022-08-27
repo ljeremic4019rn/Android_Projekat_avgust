@@ -47,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
