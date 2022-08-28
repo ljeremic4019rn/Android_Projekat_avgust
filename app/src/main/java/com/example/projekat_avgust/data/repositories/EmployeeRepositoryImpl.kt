@@ -10,6 +10,8 @@ import io.reactivex.Observable
 
 class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private val remoteDataSource: EmployeeDataSource) : EmployeeRepository {
 
+    var idCounter: Long = 25
+
     override fun fetchAllFromServer(): Observable<Resource<Unit>> {//podaci sa servera
         return remoteDataSource
             .getAll(
@@ -110,7 +112,7 @@ class EmployeeRepositoryImpl(private val localDataSource: EmployeeDao, private v
     }
 
     override fun addToDb(id: Long, name: String, salary: Int, age: Int): Completable {//add u bazi
-        return localDataSource.insert(EmployeeEntity(id, name, salary.toString(), age.toString(), ""))
+        return localDataSource.insert(EmployeeEntity(idCounter++, name, salary.toString(), age.toString(), ""))
     }
 
 }
