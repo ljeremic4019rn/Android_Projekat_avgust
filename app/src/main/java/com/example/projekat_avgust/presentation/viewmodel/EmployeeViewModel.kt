@@ -79,14 +79,16 @@ class EmployeeViewModel  (private val employeeRepository: EmployeeRepository ) :
             else -> sizeCounter += (allEmployeesLocal.size - sizeCounter)
         }
 
-        if (sizeCounter >= allEmployeesLocal.size) return
-
         println("counter $sizeCounter list ${allEmployeesLocal.size}")
 
-        for (i in 0..sizeCounter)
-            tmpArrayList.add(allEmployeesLocal[i])
 
-        gradualRvList.value = tmpArrayList
+        if (sizeCounter <= allEmployeesLocal.size) {
+            for (i in 0 until sizeCounter)
+                tmpArrayList.add(allEmployeesLocal[i])
+
+            gradualRvList.value = tmpArrayList
+        }
+
     }
 
 
